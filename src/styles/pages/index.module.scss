@@ -1,0 +1,25 @@
+@import "../colors";
+@import '../components/input.module.scss';
+
+.wrapper {
+  padding: 1.5rem 1rem;
+  width: 100%;
+
+  color: $color-gray;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  .inner {
+    width: 100%;
+
+    padding: 1rem;
+    background: $background-secondary;
+
+    form {
+      margin-top: 0.5rem;
+    }
+  }
+}

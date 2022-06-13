@@ -1,0 +1,73 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  shadowDatabaseUrl    = env("SHADOW_DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+model Administrator {
+  id           String             @id
+  created_at   DateTime           @default(now())
+  role         Administrator_role @default(ADMIN)
+  name         String
+  phone        String
+  bank_account Int                @unique
+  password     String
+}
+
+model Bet {
+  id           String   @id
+  created_at   DateTime @default(now())
+  value        Int
+  animal       Int
+  name         String
+  phone        String
+  bank_account Int
+}
+
+model Log {
+  id         String   @id
+  created_at DateTime @default(now())
+  admin_id   String
+  action     String
+}
+
+model PendingBet {
+  id           String   @id
+  created_at   DateTime @default(now())
+  token        String   @unique
+  value        Int
+  animal       Int
+  name         String
+  phone        String
+  bank_account Int
+}
+
+model WinnerAnimal {
+  id         String   @id
+  created_at DateTime @default(now())
+  animal     Int
+}
+
+model WinnerBet {
+  id           String   @id
+  created_at   DateTime @default(now())
+  animalId     String?
+  paid         Boolean
+  paycheck     Int
+  name         String
+  phone        String
+  bank_account Int
+}
+
+enum Administrator_role {
+  ADMIN
+  SUPERADMIN
+  SUPERSUPERADMIN
+  ODONODAPORRATODA
+}

@@ -1,0 +1,40 @@
+@import "../../colors";
+
+.box_grid {
+  width: 100%;
+
+  display: flex;
+  justify-content: space-evenly;
+  align-items: stretch;
+
+  gap: 1rem;
+
+  margin-top: 1rem;
+
+  .box {
+    cursor: pointer;
+
+    padding: 1rem;
+
+    width: 25%;
+    background: $background-tertiary;
+
+    border: none;
+    border-radius: 0.375rem;
+
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+
+    gap: 0.5rem;
+
+    p {
+      font-size: xx-large;
+      font-weight: bold;
+    }
+
+    &:hover {
+      background: $background-tertiary-hover;
+    }
+  }
+}

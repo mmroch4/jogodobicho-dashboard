@@ -1,0 +1,75 @@
+@import "../../styles/colors";
+
+.header {
+  padding: 0.5rem 1rem;
+
+  width: 100%;
+
+  background: $background-secondary;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: $color-gray;
+
+  h2 {
+    cursor: pointer;
+  }
+
+  span {
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.5rem;
+
+    color: $color-gray;
+
+    border: none;
+    border-radius: 0.375rem;
+
+    padding-inline: 0.875rem;
+    height: 2.5rem;
+
+    svg {
+      stroke-width: 1.5;
+      stroke: $color-gray;
+
+      fill: none;
+
+      stroke-linecap: round;
+      stroke-linejoin: round;
+
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    &:hover {
+      background: $background-tertiary;
+
+      color: $color-white;
+
+      svg {
+        stroke: $color-white;
+      }
+    }
+
+    &:active {
+      background: $background-tertiary-hover;
+    }
+
+    &.active {
+      background: $background-tertiary-hover;
+    }
+  }
+
+  .button {
+    padding: 0;
+
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}

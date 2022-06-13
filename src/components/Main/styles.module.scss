@@ -1,0 +1,95 @@
+@import "../../styles/colors";
+
+.wrapper {
+  width: 100%;
+
+  padding: 1.5rem 1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+
+  gap: 1rem;
+
+  color: $color-gray;
+
+  .inner {
+    background: $background-secondary;
+
+    padding: 1rem;
+  }
+
+  main,
+  nav {
+    width: 100%;
+  }
+
+  nav {
+    ul {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: row;
+      flex-wrap: wrap;
+
+      gap: 1rem;
+
+      list-style: none;
+
+      li span {
+        cursor: pointer;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        gap: 0.5rem;
+
+        color: $color-gray;
+
+        border-radius: 0.375rem;
+
+        padding-inline: 0.875rem;
+        height: 2.5rem;
+
+        svg {
+          stroke-width: 2;
+          stroke: $color-gray;
+
+          fill: none;
+
+          stroke-linecap: round;
+          stroke-linejoin: round;
+
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+
+        &:hover {
+          background: $background-tertiary;
+
+          color: $color-white;
+
+          svg {
+            stroke: $color-white;
+          }
+        }
+
+        &:active {
+          background: $background-tertiary-hover;
+        }
+      }
+
+      li.current span {
+        background: $background-tertiary-hover;
+
+        color: $color-white;
+
+        svg {
+          stroke: $color-white;
+        }
+      }
+    }
+  }
+}
