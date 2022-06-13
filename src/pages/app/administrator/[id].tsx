@@ -3,8 +3,10 @@ import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ParsedUrlQuery } from "querystring";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Header } from "../../../components/Header";
+import { Loading } from "../../../components/Loading";
 import { Main } from "../../../components/Main";
 import type { IResponse } from "../../../interface/api/IResponse";
 import { api } from "../../../services/api";
@@ -94,6 +96,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const Page: NextPage<IProps> = ({ administratorToEdit }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const {
@@ -117,6 +120,8 @@ const Page: NextPage<IProps> = ({ administratorToEdit }) => {
     password,
   }: IInputs) {
     try {
+      setIsLoading(true);
+
       await api.patch(
         `/administrator/update/${administratorToEdit.id}`,
         JSON.stringify({
@@ -133,16 +138,22 @@ const Page: NextPage<IProps> = ({ administratorToEdit }) => {
         }
       );
 
+      setIsLoading(false);
+
       alert("Administrador editado!");
 
       router.push("/app/administrator");
     } catch (err) {
+      setIsLoading(false);
+
       alert("Administrador não pode ser editado!");
     }
   }
 
   return (
     <>
+      <Loading isLoading={isLoading} />
+
       <Header />
 
       <Main>

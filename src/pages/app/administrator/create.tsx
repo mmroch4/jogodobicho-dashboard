@@ -2,8 +2,10 @@ import type { Administrator as IAdministrator } from "@prisma/client";
 import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Header } from "../../../components/Header";
+import { Loading } from "../../../components/Loading";
 import { Main } from "../../../components/Main";
 import type { IResponse } from "../../../interface/api/IResponse";
 import { api } from "../../../services/api";
@@ -61,6 +63,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const Page: NextPage<IProps> = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const {
@@ -77,6 +80,8 @@ const Page: NextPage<IProps> = () => {
     password,
   }: IInputs) {
     try {
+      setIsLoading(true);
+
       await api.post(
         "/administrator/create",
         JSON.stringify({
@@ -93,16 +98,22 @@ const Page: NextPage<IProps> = () => {
         }
       );
 
+      setIsLoading(false);
+
       alert("Administrador criado!");
 
       router.push("/app/administrator");
     } catch (err) {
+      setIsLoading(false);
+
       alert("Administrador não pode ser criado!");
     }
   }
 
   return (
     <>
+      <Loading isLoading={isLoading} />
+
       <Header />
 
       <Main>

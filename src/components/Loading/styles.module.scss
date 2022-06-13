@@ -1,0 +1,49 @@
+@import "../../styles/colors";
+
+.block {
+  cursor: progress;
+  z-index: 9999999;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  background: rgba($background-primary, 0.25);
+
+  div {
+      width: 7rem;
+      height: 7rem;
+
+      border: 10px solid transparent;
+      border-top: 10px solid $color-gray;
+      border-radius: 50%;
+
+      -webkit-animation: spin 450ms linear infinite;
+      animation: spin 450ms linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+      0% {
+        -webkit-transform: rotate(0deg);
+      }
+      100% {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+}

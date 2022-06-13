@@ -1,8 +1,9 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { parseCookies } from "nookies";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Header } from "../components/Header";
+import { Loading } from "../components/Loading";
 import { AuthContext } from "../contexts/auth";
 import styles from "../styles/pages/index.module.scss";
 
@@ -24,25 +25,34 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const Page: NextPage = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { register, handleSubmit } = useForm();
 
   const { signIn } = useContext(AuthContext);
 
   async function handleSignIn(data: any) {
     try {
+      setIsLoading(true);
+
       await signIn({
         bank_account: data.bank_account,
         password: data.password,
       });
 
+      setIsLoading(false);
+
       alert("Autenticado com sucesso!");
     } catch (err) {
+      setIsLoading(false);
+
       alert("Credenciais Inválidas!");
     }
   }
 
   return (
     <>
+      <Loading isLoading={isLoading} />
+
       <Header />
 
       <div className={styles.wrapper}>

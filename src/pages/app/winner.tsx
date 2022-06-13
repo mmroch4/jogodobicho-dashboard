@@ -2,7 +2,9 @@ import type { Administrator as IAdministrator } from "@prisma/client";
 import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
+import { useState } from "react";
 import { Header } from "../../components/Header";
+import { Loading } from "../../components/Loading";
 import { Main } from "../../components/Main";
 import { SearchInput } from "../../components/SearchInput";
 import { useSearch } from "../../hooks/useSearch";
@@ -60,6 +62,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const Page: NextPage<IProps> = ({ winners, administrator }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const { values, search, setSearch, handleSearch } = useSearch<IWinner>(
@@ -101,16 +104,28 @@ const Page: NextPage<IProps> = ({ winners, administrator }) => {
     );
 
     if (confirmation) {
-      await api.patch(`/winner/pay/${id}`);
+      try {
+        setIsLoading(true);
 
-      alert("Vencedor pago!");
+        await api.patch(`/winner/pay/${id}`);
 
-      router.reload();
+        setIsLoading(false);
+
+        alert("Vencedor pago!");
+
+        router.reload();
+      } catch (err) {
+        setIsLoading(false);
+
+        alert("Vencedor não pode ser pago!");
+      }
     }
   }
 
   return (
     <>
+      <Loading isLoading={isLoading} />
+
       <Header />
 
       <Main

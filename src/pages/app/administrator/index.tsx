@@ -3,7 +3,9 @@ import type { GetServerSideProps, NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
+import { useState } from "react";
 import { Header } from "../../../components/Header";
+import { Loading } from "../../../components/Loading";
 import { Main } from "../../../components/Main";
 import { SearchInput } from "../../../components/SearchInput";
 import { useSearch } from "../../../hooks/useSearch";
@@ -67,6 +69,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const Page: NextPage<IProps> = ({ administrator: me, administrators }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const { values, search, setSearch, handleSearch } = useSearch<IAdministrator>(
@@ -88,16 +91,28 @@ const Page: NextPage<IProps> = ({ administrator: me, administrators }) => {
     );
 
     if (confirmation) {
-      await api.delete(`/administrator/delete/${id}`);
+      try {
+        setIsLoading(true);
 
-      alert("Administrador eliminado!");
+        await api.delete(`/administrator/delete/${id}`);
 
-      router.reload();
+        setIsLoading(false);
+
+        alert("Administrador eliminado!");
+
+        router.reload();
+      } catch (err) {
+        setIsLoading(false);
+
+        alert("Administrador não poed ser eliminado!");
+      }
     }
   }
 
   return (
     <>
+      <Loading isLoading={isLoading} />
+
       <Header />
 
       <Main
