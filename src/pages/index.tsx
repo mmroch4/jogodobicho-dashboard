@@ -7,6 +7,11 @@ import { Loading } from "../components/Loading";
 import { AuthContext } from "../contexts/auth";
 import styles from "../styles/pages/index.module.scss";
 
+interface IOnSubmitProps {
+  bank_account: number;
+  password: string;
+}
+
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { "@jogodobicho:administrator:token": token } = parseCookies(ctx);
 
@@ -26,17 +31,17 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 const Page: NextPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<IOnSubmitProps>();
 
   const { signIn } = useContext(AuthContext);
 
-  async function handleSignIn(data: any) {
+  async function onSubmit({ bank_account, password }: IOnSubmitProps) {
     try {
       setIsLoading(true);
 
       await signIn({
-        bank_account: data.bank_account,
-        password: data.password,
+        bank_account,
+        password,
       });
 
       setIsLoading(false);
@@ -59,13 +64,17 @@ const Page: NextPage = () => {
         <div className={styles.inner}>
           <h2>Entrar</h2>
 
-          <form onSubmit={handleSubmit(handleSignIn)}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <label className={`${styles.field} ${styles.field_v1}`}>
               <input
                 className={styles.field__input}
                 placeholder="ex: 61234567"
-                {...register("bank_account", { required: true })}
-                type="password"
+                {...register("bank_account", {
+                  required: true,
+                  valueAsNumber: true,
+                })}
+                type="number"
+                autoComplete="jogo do bicho - conta bancária"
               />
               <span className={styles.field__icon}>
                 <svg
@@ -89,6 +98,7 @@ const Page: NextPage = () => {
                 placeholder="ex: suasenhasuperforte"
                 {...register("password", { required: true })}
                 type="password"
+                autoComplete="jogo do bicho - senha"
               />
               <span className={styles.field__icon}>
                 <svg
