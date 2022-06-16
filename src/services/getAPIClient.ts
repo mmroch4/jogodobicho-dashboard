@@ -5,7 +5,7 @@ export function getAPIClient(ctx?: any) {
   const { "@jogodobicho:administrator:token": token } = parseCookies(ctx);
 
   const api = axios.create({
-    baseURL: "https://jogodobicho-api.herokuapp.com/",
+    baseURL: process.env.NEXT_PUBLIC_RESOURCE_ENDPOINT,
   });
 
   if (token) {
