@@ -17,7 +17,7 @@ export function useSearch<Value>(
   }
 
   function filterValues(): Value[] {
-    return searchedValues.filter(callbackFn);
+    return values.filter(callbackFn);
   }
 
   return { values: searchedValues, handleSearch, search, setSearch };
